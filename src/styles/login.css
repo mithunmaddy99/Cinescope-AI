@@ -1,0 +1,626 @@
+
+/* =====================================
+   CINESCOPE AI - CINEMATIC LOGIN
+===================================== */
+
+.login-page {
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: 1.12fr 0.88fr;
+  background: #101014;
+  color: #F5F0E8;
+}
+
+/* LEFT CINEMA EXPERIENCE */
+
+.cinema-panel {
+  min-height: 100vh;
+  padding: 38px 6%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  background:
+    radial-gradient(ellipse at 65% 48%, rgba(214,168,93,.24), transparent 38%),
+    linear-gradient(130deg, #09090c, #26140f 55%, #100e13);
+}
+
+.cinema-panel::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  opacity: .45;
+  background:
+    repeating-linear-gradient(
+      115deg,
+      transparent 0 65px,
+      rgba(255,255,255,.025) 66px 68px
+    );
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  font-size: 17px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  position: relative;
+  z-index: 5;
+}
+
+.brand-symbol {
+  width: 40px;
+  height: 40px;
+  display: grid;
+  place-items: center;
+  border: 1px solid #D6A85D;
+  color: #D6A85D;
+  font-family: Georgia, serif;
+  font-size: 25px;
+}
+
+.brand strong,
+.mobile-brand strong {
+  color: #D6A85D;
+}
+
+.hero-copy {
+  max-width: 490px;
+  position: relative;
+  z-index: 4;
+  margin-top: 35px;
+}
+
+.eyebrow,
+.login-eyebrow {
+  color: #D6A85D;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 3px;
+}
+
+.hero-copy h1 {
+  font-family: Georgia, serif;
+  font-size: clamp(42px, 5vw, 69px);
+  line-height: 1.12;
+  font-weight: 400;
+  margin: 22px 0;
+}
+
+.hero-copy h1 span {
+  color: #D6A85D;
+  font-style: italic;
+}
+
+.hero-copy p {
+  max-width: 400px;
+  color: #C1B9B3;
+  font-size: 14px;
+  line-height: 1.9;
+}
+
+/* ABSTRACT FILM REEL */
+
+.film-art {
+  position: absolute;
+  width: 390px;
+  height: 390px;
+  right: -95px;
+  top: 20%;
+  z-index: -1;
+  pointer-events: none;
+}
+
+.film-reel {
+  position: absolute;
+  width: 230px;
+  height: 230px;
+  right: 45px;
+  top: 45px;
+  border: 13px solid #A87535;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle, #1B1715 0 24%, transparent 25%),
+    radial-gradient(circle, transparent 0 52%, #C28B42 53% 55%, transparent 56%);
+  box-shadow: 0 0 45px rgba(214,168,93,.25);
+  animation: reel-spin 30s linear infinite;
+}
+
+.film-reel span {
+  position: absolute;
+  width: 35px;
+  height: 35px;
+  background: #101014;
+  border: 2px solid #B47C38;
+  border-radius: 50%;
+  top: 20%;
+  left: 42%;
+}
+
+.film-reel span:nth-child(2) {
+  top: 42%;
+  left: 72%;
+}
+
+.film-reel span:nth-child(3) {
+  top: 68%;
+  left: 45%;
+}
+
+.film-reel span:nth-child(4) {
+  top: 42%;
+  left: 16%;
+}
+
+.film-reel span:nth-child(5) {
+  top: 23%;
+  left: 20%;
+}
+
+@keyframes reel-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.film-beam {
+  position: absolute;
+  width: 470px;
+  height: 150px;
+  right: 0;
+  top: 210px;
+  transform: rotate(-17deg);
+  background: linear-gradient(
+    90deg,
+    rgba(214,168,93,.25),
+    rgba(214,168,93,.04),
+    transparent
+  );
+  filter: blur(15px);
+}
+
+.film-strip {
+  position: absolute;
+  width: 370px;
+  height: 65px;
+  bottom: -10px;
+  right: 0;
+  border-top: 4px solid rgba(214,168,93,.7);
+  border-bottom: 4px solid rgba(214,168,93,.7);
+  transform: rotate(-18deg);
+  display: flex;
+  justify-content: space-around;
+}
+
+.film-strip span {
+  width: 25px;
+  height: 10px;
+  background: #D6A85D;
+  opacity: .55;
+}
+
+/* INDIAN CINEMA GENRE COLLAGE */
+
+.genre-collage {
+  position: relative;
+  z-index: 3;
+  width: min(100%, 540px);
+  margin: 25px 0 35px;
+}
+
+.genre-card {
+  min-height: 170px;
+  padding: 22px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  border: 1px solid rgba(214,168,93,.4);
+  border-radius: 12px;
+  overflow: hidden;
+  position: relative;
+  background:
+    linear-gradient(90deg, rgba(8,8,12,.95), rgba(8,8,12,.3)),
+    linear-gradient(130deg, #5c2818, #1a1820 65%, #8c5a27);
+  transition: background .3s ease;
+}
+
+.genre-card::after {
+  content: "";
+  position: absolute;
+  width: 220px;
+  height: 220px;
+  right: 8%;
+  top: -50px;
+  border: 1px solid rgba(255,220,160,.5);
+  border-radius: 50%;
+  box-shadow: 0 0 0 22px rgba(214,168,93,.06),
+              0 0 0 48px rgba(214,168,93,.04);
+}
+
+.genre-action {
+  background:
+    linear-gradient(90deg, rgba(8,8,12,.95), rgba(8,8,12,.3)),
+    linear-gradient(130deg, #6c2417, #21161a 65%, #b56c2e);
+}
+
+.genre-romance {
+  background:
+    linear-gradient(90deg, rgba(8,8,12,.95), rgba(8,8,12,.3)),
+    linear-gradient(130deg, #6e273c, #21161f 65%, #bd8557);
+}
+
+.genre-thriller {
+  background:
+    linear-gradient(90deg, rgba(8,8,12,.95), rgba(8,8,12,.3)),
+    linear-gradient(130deg, #142d3b, #12141e 65%, #5c493f);
+}
+
+.genre-number {
+  color: #D6A85D;
+  font-size: 10px;
+  letter-spacing: 2px;
+}
+
+.genre-name {
+  margin-top: 10px;
+  color: #D6A85D;
+  font-size: 9px;
+  letter-spacing: 2px;
+  font-weight: 700;
+}
+
+.genre-card h2 {
+  font-family: Georgia, serif;
+  font-size: 25px;
+  font-weight: 400;
+  margin: 7px 0;
+  position: relative;
+  z-index: 2;
+}
+
+.genre-card p {
+  color: #C1B9B3;
+  font-size: 12px;
+  margin: 0;
+  position: relative;
+  z-index: 2;
+}
+
+.genre-thumbnails {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.mini-poster {
+  height: 65px;
+  border: 1px solid rgba(214,168,93,.3);
+  border-radius: 7px;
+  display: flex;
+  align-items: flex-end;
+  padding: 9px;
+  background: linear-gradient(135deg, #7d3c1e, #18131a);
+}
+
+.mini-poster span {
+  color: #F5F0E8;
+  font-size: 9px;
+  letter-spacing: 1.5px;
+}
+
+.poster-drama {
+  background: linear-gradient(135deg, #752f49, #1a141c);
+}
+
+.poster-thriller {
+  background: linear-gradient(135deg, #16475b, #101014);
+}
+
+.slide-controls {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 15px;
+}
+
+.slide-controls button {
+  width: 9px;
+  height: 9px;
+  padding: 0;
+  border: 1px solid #D6A85D;
+  border-radius: 50%;
+  background: transparent;
+  cursor: pointer;
+}
+
+.slide-controls button.active {
+  background: #D6A85D;
+}
+
+/* THEATRE SEATS */
+
+.theatre-seats {
+  position: absolute;
+  left: -30px;
+  right: -30px;
+  bottom: 0;
+  height: 55px;
+  display: flex;
+  gap: 8px;
+  align-items: flex-end;
+  overflow: hidden;
+  opacity: .3;
+  z-index: 1;
+}
+
+.theatre-seats span {
+  flex: 1;
+  height: 38px;
+  border-radius: 35px 35px 0 0;
+  background: linear-gradient(90deg, #40131b, #a72d32, #4c121b);
+}
+
+.theatre-seats span:nth-child(even) {
+  height: 48px;
+}
+
+.cinema-footer {
+  display: flex;
+  justify-content: space-between;
+  gap: 15px;
+  color: #A5A1A0;
+  font-size: 9px;
+  letter-spacing: 2px;
+  position: relative;
+  z-index: 4;
+}
+
+/* RIGHT LOGIN PANEL */
+
+.login-panel {
+  min-height: 100vh;
+  padding: 45px 9%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  background:
+    radial-gradient(ellipse at 90% 0%, rgba(101,30,45,.12), transparent 40%),
+    #141419;
+}
+
+.login-card {
+  width: 100%;
+  max-width: 390px;
+}
+
+.mobile-brand {
+  display: none;
+}
+
+.login-card h2 {
+  font-family: Georgia, serif;
+  font-size: 43px;
+  font-weight: 400;
+  margin: 15px 0 8px;
+}
+
+.login-description {
+  color: #A5A1A0;
+  font-size: 13px;
+  margin-bottom: 38px;
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 23px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.form-group label,
+.password-heading label {
+  font-size: 12px;
+  color: #E4DFD8;
+}
+
+.form-group input {
+  width: 100%;
+  height: 51px;
+  padding: 0 15px;
+  border: 1px solid #34343D;
+  border-radius: 7px;
+  outline: none;
+  background: #1B1B22;
+  color: #F5F0E8;
+  font-size: 13px;
+}
+
+.form-group input:focus {
+  border-color: #D6A85D;
+}
+
+.form-group input::placeholder {
+  color: #77737A;
+}
+
+.password-heading {
+  display: flex;
+  justify-content: space-between;
+}
+
+.password-heading a {
+  color: #D6A85D;
+  font-size: 11px;
+}
+
+.password-input {
+  display: flex;
+  position: relative;
+}
+
+.password-input input {
+  padding-right: 65px;
+}
+
+.password-toggle {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: transparent;
+  border: 0;
+  color: #D6A85D;
+  font-size: 9px;
+  letter-spacing: 1px;
+}
+
+.remember-option {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  color: #A5A1A0;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.remember-option input {
+  accent-color: #D6A85D;
+}
+
+.sign-in-button {
+  height: 52px;
+  border: none;
+  border-radius: 7px;
+  background: #D6A85D;
+  color: #101014;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.sign-in-button:hover {
+  background: #E6BB78;
+}
+
+.sign-in-button span {
+  margin-left: 8px;
+  font-size: 18px;
+}
+
+.login-divider {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin: 29px 0 22px;
+}
+
+.login-divider::before,
+.login-divider::after {
+  content: "";
+  height: 1px;
+  flex: 1;
+  background: #34343D;
+}
+
+.login-divider span {
+  color: #77737A;
+  font-size: 9px;
+  letter-spacing: 1.5px;
+  white-space: nowrap;
+}
+
+.google-button {
+  width: 100%;
+  height: 50px;
+  border: 1px solid #34343D;
+  border-radius: 7px;
+  background: transparent;
+  color: #F5F0E8;
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+}
+
+.google-letter {
+  font-size: 18px;
+  font-weight: 700;
+  color: #D6A85D;
+}
+
+.signup-text {
+  text-align: center;
+  color: #A5A1A0;
+  font-size: 12px;
+  margin-top: 30px;
+}
+
+.signup-text a {
+  color: #D6A85D;
+  font-weight: 600;
+}
+
+.login-bottom {
+  position: absolute;
+  bottom: 20px;
+  color: #77737A;
+  font-size: 10px;
+}
+
+/* RESPONSIVE */
+
+@media (max-width: 850px) {
+  .login-page {
+    grid-template-columns: 1fr;
+  }
+
+  .cinema-panel {
+    display: none;
+  }
+
+  .login-panel {
+    padding: 55px 24px 80px;
+  }
+
+  .mobile-brand {
+    display: block;
+    color: #F5F0E8;
+    font-size: 17px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    margin-bottom: 55px;
+  }
+
+  .login-card {
+    max-width: 430px;
+  }
+}
+
+@media (max-width: 420px) {
+  .login-card h2 {
+    font-size: 36px;
+  }
+
+  .login-panel {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .film-reel {
+    animation: none;
+  }
+}
