@@ -1,5 +1,7 @@
 
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { GoogleLogin } from '@react-oauth/google';
 import '../styles/login.css';
 
 const cinemaSlides = [
@@ -24,22 +26,138 @@ const cinemaSlides = [
 ];
 
 function LoginPage() {
+  const navigate = useNavigate();
+
   const [showPassword, setShowPassword] = useState(false);
   const [activeSlide, setActiveSlide] = useState(0);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
+  const [successMessage, setSuccessMessage] = useState('');
 
   const slide = cinemaSlides[activeSlide];
 
-  function handleSubmit(event) {
+  // EMAIL AND PASSWORD LOGIN
+  async function handleSubmit(event) {
     event.preventDefault();
 
-    if (!email || !password) {
-      alert('Please enter your email and password.');
+    setErrorMessage('');
+    setSuccessMessage('');
+
+    if (!email.trim() || !password) {
+      setErrorMessage('Please enter your email and password.');
       return;
     }
 
-    alert('Login UI is ready. Backend authentication is coming next!');
+    try {
+      setLoading(true);
+
+      const response = await fetch(
+        'http://localhost:5000/api/auth/login',
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            email: email.trim(),
+            password,
+          }),
+        }
+      );
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(
+          data.message || 'Login failed. Please try again.'
+        );
+      }
+
+      sessionStorage.setItem('cinescope_token', data.token);
+
+      sessionStorage.setItem(
+        'cinescope_user',
+        JSON.stringify(data.user)
+      );
+
+      setSuccessMessage(
+        `Welcome back, ${data.user.fullName}!`
+      );
+
+      navigate('/dashboard', { replace: true });
+
+    } catch (error) {
+      setErrorMessage(
+        error.message || 'Unable to connect to CineScope AI.'
+      );
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  // GOOGLE LOGIN SUCCESS
+  async function handleGoogleSuccess(credentialResponse) {
+    setErrorMessage('');
+    setSuccessMessage('');
+
+    if (!credentialResponse.credential) {
+      setErrorMessage('Google did not return a valid credential.');
+      return;
+    }
+
+    try {
+      setLoading(true);
+
+      const response = await fetch(
+        'http://localhost:5000/api/auth/google',
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            credential: credentialResponse.credential,
+          }),
+        }
+      );
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(
+          data.message || 'Google login failed.'
+        );
+      }
+
+      sessionStorage.setItem('cinescope_token', data.token);
+
+      sessionStorage.setItem(
+        'cinescope_user',
+        JSON.stringify(data.user)
+      );
+
+      setSuccessMessage(
+        `Welcome back, ${data.user.fullName}!`
+      );
+
+      navigate('/dashboard', { replace: true });
+
+    } catch (error) {
+      setErrorMessage(
+        error.message || 'Google authentication failed.'
+      );
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  // GOOGLE LOGIN FAILURE
+  function handleGoogleError() {
+    setErrorMessage(
+      'Google sign-in was unsuccessful. Please try again.'
+    );
   }
 
   return (
@@ -79,7 +197,9 @@ function LoginPage() {
             <span />
             <span />
           </div>
+
           <div className="film-beam" />
+
           <div className="film-strip">
             <span />
             <span />
@@ -90,10 +210,16 @@ function LoginPage() {
 
         {/* INDIAN CINEMA GENRE COLLAGE */}
         <div className="genre-collage">
+
           <div className={`genre-card genre-${slide.visual}`}>
-            <span className="genre-number">0{activeSlide + 1}</span>
+            <span className="genre-number">
+              0{activeSlide + 1}
+            </span>
+
             <span className="genre-name">{slide.genre}</span>
+
             <h2>{slide.title}</h2>
+
             <p>{slide.description}</p>
           </div>
 
@@ -101,9 +227,11 @@ function LoginPage() {
             <div className="mini-poster poster-action">
               <span>ACTION</span>
             </div>
+
             <div className="mini-poster poster-drama">
               <span>DRAMA</span>
             </div>
+
             <div className="mini-poster poster-thriller">
               <span>THRILLER</span>
             </div>
@@ -159,6 +287,7 @@ function LoginPage() {
 
             <div className="form-group">
               <label htmlFor="email">Email address</label>
+
               <input
                 id="email"
                 type="email"
@@ -171,12 +300,14 @@ function LoginPage() {
             </div>
 
             <div className="form-group">
+
               <div className="password-heading">
                 <label htmlFor="password">Password</label>
                 <a href="#forgot-password">Forgot password?</a>
               </div>
 
               <div className="password-input">
+
                 <input
                   id="password"
                   type={showPassword ? 'text' : 'password'}
@@ -191,20 +322,41 @@ function LoginPage() {
                   type="button"
                   className="password-toggle"
                   onClick={() => setShowPassword(!showPassword)}
-                  aria-label={showPassword ? 'Hide password' : 'Show password'}
+                  aria-label={
+                    showPassword ? 'Hide password' : 'Show password'
+                  }
                 >
                   {showPassword ? 'HIDE' : 'SHOW'}
                 </button>
+
               </div>
             </div>
+
+            {/* LOGIN FEEDBACK */}
+            {errorMessage && (
+              <p className="login-error" role="alert">
+                {errorMessage}
+              </p>
+            )}
+
+            {successMessage && (
+              <p className="login-success" role="status">
+                {successMessage}
+              </p>
+            )}
 
             <label className="remember-option">
               <input type="checkbox" />
               <span>Remember me</span>
             </label>
 
-            <button type="submit" className="sign-in-button">
-              Sign in <span>→</span>
+            <button
+              type="submit"
+              className="sign-in-button"
+              disabled={loading}
+            >
+              {loading ? 'Signing in...' : 'Sign in'}
+              {!loading && <span>→</span>}
             </button>
 
           </form>
@@ -213,10 +365,21 @@ function LoginPage() {
             <span>OR CONTINUE WITH</span>
           </div>
 
-          <button type="button" className="google-button">
-            <span className="google-letter">G</span>
-            Continue with Google
-          </button>
+          {/* OFFICIAL GOOGLE SIGN-IN */}
+          <div className="google-login-wrapper">
+            {loading ? (
+              <p>Authenticating...</p>
+            ) : (
+              <GoogleLogin
+                onSuccess={handleGoogleSuccess}
+                onError={handleGoogleError}
+                theme="filled_black"
+                shape="rectangular"
+                text="continue_with"
+                width="320"
+              />
+            )}
+          </div>
 
           <p className="signup-text">
             New to CineScope? <a href="#signup">Create an account</a>
